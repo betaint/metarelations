@@ -120,7 +120,7 @@ def plot_barcode_diagram(persistence, output):
         labels = ["$H_0$", "$H_1$", "$H_2$", "$H_3$"]
         fig, ax = pyplot.subplots(nrows=number_of_dimensions, ncols=1,
                                   figsize=(6, 4))
-        fig.suptitle("Barcode diagram")
+        fig.suptitle("Barcode Diagram")
         for dim, diagram in enumerate(dgms):
             births, deaths = [], []
             number_of_bars = len(diagram)
@@ -146,9 +146,9 @@ def plot_barcode_diagram(persistence, output):
         # Accounting for the case of 'dgms' containing only data for the zeroth
         # homology group
         if dim == 0:
-            ax.set_xlabel("epsilon")
+            ax.set_xlabel("$\epsilon$")
         else:
-            ax[number_of_dimensions - 1].set_xlabel("epsilon")
+            ax[number_of_dimensions - 1].set_xlabel("$\epsilon$")
         fig.savefig(output + 'barcode_diagram.svg')
 
 
