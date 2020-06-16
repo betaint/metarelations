@@ -108,7 +108,7 @@ def weekday_maximum(datetime_per_sender):
 
 
 def feature_scaling(dataframe):
-    """Apply minmax-scaling to all features in a dataframe.
+    """Apply min-max scaling to all features in a dataframe.
 
     :param pandas.DataFrame dataframe: A pandas.DataFrame with unscaled features
     :returns: A pandas.DataFrame with scaled features
