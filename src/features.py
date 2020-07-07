@@ -41,6 +41,7 @@ def average_timestamps_in_seconds(datetimes_per_sender):
     """
 
     seconds_total = 0
+    seconds_per_day = 24*60*60
     timestamps_in_seconds = collections.defaultdict(int)
 
     for sender in datetimes_per_sender:
@@ -49,6 +50,9 @@ def average_timestamps_in_seconds(datetimes_per_sender):
             seconds_of_timestamp = t.hour * 3600 + t.minute * 60 + t.second
             seconds_total += seconds_of_timestamp
         seconds_average = round(seconds_total / number_of_timestamps)
+        # Eliminate redundant values by making sure that the average is
+        # restricted to the interval [0, seconds_per_day -1]
+        _, seconds_average = divmod(seconds_average, seconds_per_day)
         timestamps_in_seconds[sender] = seconds_average
 
     return timestamps_in_seconds
