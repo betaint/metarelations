@@ -39,8 +39,8 @@ else:
     scaled_df = features.feature_scaling(df)
 
     # Calculate the data for a persistence diagram and save the diagram
-    data_collection, persistence_data = persistence.plot_persistence_diagram(
-        scaled_df, OUTPUT_DIR)
+    data_collection, persistence_data = persistence.calculate_persistence(scaled_df)
+    persistence.plot_persistence_diagram(persistence_data, OUTPUT_DIR)
 
     # Calculate and save a barcode diagram
     persistence.plot_barcode_diagram(persistence_data, OUTPUT_DIR)

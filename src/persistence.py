@@ -74,16 +74,15 @@ def metric_weekday(weekday_1, weekday_2):
     return numpy.absolute(weekday_1 - weekday_2)
 
 
-def plot_persistence_diagram(dataframe, output, metric=product_metric):
-    """Calculate persistence data and plot a persistence diagram.
+def calculate_persistence(dataframe, metric=product_metric):
+    """Calculate persistence data.
 
-    :param pandas.DataFrame dataframe: A dataframe with features used to
+    :param pandas.DataFrame dataframe: A dataframe with the data used to
     calculate the persistence data
-    :param str output: The directory to save the output to
     :param metric: The metric used to calculate the persistence data
-    :returns: A tuple consisting of all input variables and their respective
-    identifiers and a ripser object with the computed persistence data
-    :rtype: tuple(tuple(list(numpy.ndarray), list(str)),ripser.ripser)
+    :returns: All data points used in the calculation with their respective
+    identifiers and the calculated persistence data themselves
+    :rtype: tuple(tuple(numpy.ndarray, list(str)), ripser.ripser)
     """
 
     # Collect all the for the persistence computation necessary data
@@ -91,17 +90,27 @@ def plot_persistence_diagram(dataframe, output, metric=product_metric):
     identifiers = dataframe.index.to_list()
     collected_data = (collected_vectors, identifiers)
 
-    # Calculate persistence data and the corresponding diagram for the zeroth
+    # Calculate the persistence and corresponding diagram data for the zeroth
     # homology group
     persistence = ripser.ripser(collected_vectors, maxdim=0, metric=metric)
+
+    return collected_data, persistence
+
+
+def plot_persistence_diagram(persistence, output):
+    """Plot a persistence diagram.
+
+    :param ripser.ripser persistence: The previously calculated persistence data
+    :param str output: The directory to save the output to
+    """
+
+    # Plot a persistence diagram
     dgms = persistence['dgms']
     pyplot.figure(figsize=(6, 6))
     pyplot.title('Persistence Diagram')
     persim.plot_diagrams(dgms, show=False)
     pyplot.tight_layout()
     pyplot.savefig(output + 'persistence_diagram_ripser.svg')
-
-    return collected_data, persistence
 
 
 def plot_barcode_diagram(persistence, output):
