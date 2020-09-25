@@ -7,6 +7,7 @@
 # standard library imports
 import mailbox
 import configparser
+import sys
 
 # imports from modules in ./src
 from src import mailanalysis
@@ -25,13 +26,15 @@ THRESHOLD = config.getint('additional', 'threshold',
 
 
 # Parse input and create persistence and barcode diagrams
-mail = mailbox.mbox(INPUT, create=False)
 try:
+    mail = mailbox.mbox(INPUT, create=False)
+except mailbox.NoSuchMailboxError as e:
+    print('Could not find input file: ', INPUT)
+    sys.exit(1)
+else:
+    # Parse messages
     mails_per_sender, datetimes_per_sender = mailanalysis.parse_mails(mail,
                                                                       THRESHOLD)
-except FileNotFoundError as fnf_error:
-    print(fnf_error)
-else:
     # Create a pandas.DataFrame with features
     df = features.aggregate_dataframe(mails_per_sender, datetimes_per_sender)
 
