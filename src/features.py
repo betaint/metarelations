@@ -41,7 +41,7 @@ def average_timestamps_in_seconds(datetimes_per_sender):
     """
 
     seconds_total = 0
-    seconds_per_day = 24*60*60
+    seconds_per_day = 24 * 60 * 60
     timestamps_in_seconds = collections.defaultdict(int)
 
     for sender in datetimes_per_sender:
