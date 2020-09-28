@@ -9,6 +9,9 @@ import collections
 import pandas
 from sklearn import preprocessing
 
+# imports from modules in ./src
+from src import exceptions
+
 
 def aggregate_dataframe(mails_per_sender, datetimes_per_sender):
     """Engineer features and aggregate them in a dataframes.
@@ -16,9 +19,17 @@ def aggregate_dataframe(mails_per_sender, datetimes_per_sender):
     :param dict mails_per_sender: A dictionary with email counts for each sender
     :param dict datetimes_per_sender: A dictionary with datetime objects for
     each sender
+    :raises InputError: if at least one of the arguments is an empty dictionary
     :returns: A dataframe with aggregated features
     :rtype: pandas.DataFrame
     """
+
+    try:
+        if not mails_per_sender or not datetimes_per_sender:
+            raise exceptions.InputError('At least one of the arguments is an '
+                                        'empty dictionary!')
+    except exceptions.InputError:
+        raise
 
     average_timestamps = average_timestamps_in_seconds(
         datetimes_per_sender)
